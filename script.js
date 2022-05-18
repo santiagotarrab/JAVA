@@ -38,6 +38,9 @@ function jugar(){
     DISPONIBLE: $` + credito+`
 
     PARA VOLVER AL MENU INGRESE M`)
+    
+    if(apuestaDinero!=0){
+    
     apuestaNumero=solicitarValor(1,10,`INGRESE A QUE NUMERO APOSTAR (1 al 10)`+`
 
     PARA VOLVER AL MENU INGRESE M`)
@@ -53,6 +56,8 @@ function jugar(){
         SUERTE EN EL PROXIMO INTENTO!`)
         credito-=apuestaDinero
     }
+    }
+
 }
 
 function getRandom(min,max){
@@ -64,10 +69,10 @@ function solicitarValor(min,max,text){
     let maxV = Number(max)
 
     do{
-    valorIngresado=(prompt(text))
-    }while((Number(valorIngresado)>maxV || Number(valorIngresado)<minV)&& !(valorIngresado=="M") )
+    valorIngresado=prompt(text)
+    }while(((Number(valorIngresado)>maxV || Number(valorIngresado)<minV)|| isNaN(valorIngresado)  ) && (!(valorIngresado=="M"))) 
     
-    if(valorIngresado=="M"){
+    if(valorIngresado=="M"|| isNaN(valorIngresado)){
         valorIngresado=0;
     }
     return Number(valorIngresado)
