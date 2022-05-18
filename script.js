@@ -34,13 +34,13 @@ PARA VOLVER AL MENU INGRESE M`)
 
 
 function jugar(){
-    apuestaDinero=solicitarValor(1,Number(credito),`INGRESE EL DINERO A APOSTAR:
+    apuestaDinero=solicitarValor(1,credito,`INGRESE EL DINERO A APOSTAR:
     DISPONIBLE: $` + credito+`
 
     PARA VOLVER AL MENU INGRESE M`)
     apuestaNumero=solicitarValor(1,10,`INGRESE A QUE NUMERO APOSTAR (1 al 10)`+`
 
-    PARA VOLVER AL MENU INGRESE M`        )
+    PARA VOLVER AL MENU INGRESE M`)
     resultadoRuleta=Number(getRandom(1,10))
 
   
@@ -60,13 +60,12 @@ function getRandom(min,max){
 }
 
 function solicitarValor(min,max,text){
-    minV = Number(min)
-    maxV = Number(max)
+    let minV = Number(min)
+    let maxV = Number(max)
 
-alert("max"+maxV +",min"+ minV)
     do{
     valorIngresado=(prompt(text))
-    }while((valorIngresado>maxV || valorIngresado<minV) && !valorIngresado=="M" )
+    }while((Number(valorIngresado)>maxV || Number(valorIngresado)<minV)&& !(valorIngresado=="M") )
     
     if(valorIngresado=="M"){
         valorIngresado=0;
