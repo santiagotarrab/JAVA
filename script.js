@@ -1,26 +1,75 @@
-console.log ("HOLA");
+let credito=0;
 
-let i=0;
-let cantAlumnos;
-let nota;
-let sumaNota=0;
-//reporte de notas de alumnos
+do{
+operacion=solicitarValor(1,4,`BIENVENIDO A LA JAVARULETA
+    
+    SU CREDITO ACTUAL ES : $`+ credito +`
+    
+    INGRESE LA OPERACION QUE QUIERA REALIZAR:
+    1-CARGAR DINERO
+    2-JUGAR
+    3-RETIRAR DINERO
+    4-SALIR`)
+
+    switch(operacion){
+        case 1:
+        credito+=solicitarValor(1,1000,"INGRESE LA CANTIDAD DE DINERO A CARGAR (1-1000)."+`
+
+        PARA VOLVER AL MENU INGRESE M`)
+        break;
+
+        case 2:
+        jugar()
+        break;
+
+        case 3:
+        retiro=solicitarValor(1,credito,"INGRESE LA CANTIDAD DE DINERO A RETIRAR. DISPONIBLE: $"+credito+`
+
+PARA VOLVER AL MENU INGRESE M`)    
+        credito-=retiro
+        alert("USTED RETIRO $"+ retiro)
+        break;
+    }
+}while(operacion!="4")
 
 
-alert (`INGRESE POR FAVOR LA CANTIDAD DE ALUMNOS
-    REPORTE ALUMNOS`);
+function jugar(){
+    apuestaDinero=solicitarValor(1,Number(credito),`INGRESE EL DINERO A APOSTAR:
+    DISPONIBLE: $` + credito+`
 
-do {
-cantAlumnos = (prompt("INGRESE CANTIDAD DE ALUMNOS"))
+    PARA VOLVER AL MENU INGRESE M`)
+    apuestaNumero=solicitarValor(1,10,`INGRESE A QUE NUMERO APOSTAR (1 al 10)`+`
 
-if(isNaN(cantAlumnos)){
-    alert ("Por favor ingrese correctamente el número.")
+    PARA VOLVER AL MENU INGRESE M`        )
+    resultadoRuleta=Number(getRandom(1,10))
+
+  
+    if(apuestaNumero===resultadoRuleta){
+        alert(`EL RESULTADO DE LA RULETA ES `+ resultadoRuleta +`
+        FELICIDADES! HA GANADO $`+apuestaDinero*10)
+        credito+=apuestaDinero*10
+    } else{
+        alert(`EL RESULTADO DE LA RULETA ES `+ resultadoRuleta +`
+        SUERTE EN EL PROXIMO INTENTO!`)
+        credito-=apuestaDinero
+    }
 }
-}while (isNaN(cantAlumnos));
 
-for (i=0; i<cantAlumnos;i++){
-nota = Number(prompt("ingrese Nota del alumno " + (i+1) ));
-console.log ("Nota del alumno" + (i+1) + ":" + nota);
-sumaNota+=nota;
+function getRandom(min,max){
+    return Math.round(Math.random() *(max-min)+min);
 }
-console.log("El promedio del alumnado es " + (sumaNota/cantAlumnos));
+
+function solicitarValor(min,max,text){
+    minV = Number(min)
+    maxV = Number(max)
+
+alert("max"+maxV +",min"+ minV)
+    do{
+    valorIngresado=(prompt(text))
+    }while((valorIngresado>maxV || valorIngresado<minV) && !valorIngresado=="M" )
+    
+    if(valorIngresado=="M"){
+        valorIngresado=0;
+    }
+    return Number(valorIngresado)
+}
