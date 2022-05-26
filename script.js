@@ -2,6 +2,7 @@
 let credito=0;
 let i=0;
 let j=0;
+
 let apuestaNro=[];
 let lista="";
 
@@ -11,18 +12,24 @@ class apuesta{
         this.apuestaDinero=apuestaDinero
         this.apuestaNumero=apuestaNumero
         this.resultadoRuleta=resultadoRuleta
-        
+        this.gananciaRonda = this.ganancia()
     }
     mostrarResultado(){
-        alert("HOLA" + this.apuestaDinero + " " + this.apuestaNumero)
+        return "$" + this.apuestaDinero + "; AL " + this.apuestaNumero+ "; RESULTADO:" + this.resultadoRuleta + "; GANANCIA: " + this.gananciaRonda
     }
-
+    ganancia(){
+        if(this.apuestaNumero===this.resultadoRuleta){
+            return (this.apuestaNumero*10-1)
+        } else{
+            return -1
+        }
+    }
 }
 
 
 
 do{
-operacion=solicitarValor(1,5,`BIENVENIDO A LA JAVARULETA
+operacion=solicitarValor(1,6,`BIENVENIDO A LA JAVARULETA
     
     SU CREDITO ACTUAL ES : $`+ credito +`
     
@@ -31,7 +38,8 @@ operacion=solicitarValor(1,5,`BIENVENIDO A LA JAVARULETA
     2-JUGAR
     3-RETIRAR DINERO
     4-MOSTRAR APUESTAS
-    5-SALIR`)
+    5-VER RESULTADOS RULETA
+    6-SALIR`)
 
     switch(operacion){
         case 1:
@@ -56,16 +64,39 @@ PARA VOLVER AL MENU INGRESE M`)
             j=0
 
             for(j=0;j<i;j++){
-                lista+="APUESTA " + [j] + ": $" + apuestaNro[j].apuestaDinero + "; AL " + apuestaNro[j].apuestaNumero+ "; RESULTADO:" + apuestaNro[j].resultadoRuleta +`
-`     
-                
+            lista+="APUESTA " + j + ": " + apuestaNro[j].mostrarResultado() +`
+`                 
             }
+   
             alert(lista)
             break;
+        
+        case 5:
+            resultadosTxt=`LISTA DE RESULTADOS
+            
+`
+
+            const resultadosRuleta= apuestaNro.map (function (el){
+                return {
+                    result:el.resultadoRuleta,
+                    }
+             
+            }
+            )
+
+
+            for (const el of resultadosRuleta){
+                resultadosTxt+=("RESULTADO: " + el.result)+`
+`
+            }
+            alert(resultadosTxt)
+            // for(const el of resultadosRuleta){
+            //     alert( el.resultadoRuleta)
+            // }
+ 
+        break;
     }
-
-
-}while(operacion!="5")
+}while(operacion!="6")
 
 
 function jugar(){
