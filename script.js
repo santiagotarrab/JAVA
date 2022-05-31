@@ -27,6 +27,23 @@ class apuesta{
 }
 
 
+let contenedor=document.getElementById("listaResultados")
+mensaje="hola"
+console.log(contenedor.innerText)
+contenedor.innerHTML= "<h1>PROBANDO</h1>"
+
+const productos= [
+    {id:1, nombre:"arroz", precio:10},
+    {id:2, nombre:"fideos", precio:20},
+    {id:3, nombre:"porotos", precio:30}
+]
+
+for (const producto of productos){
+    let cont = document.createElement("div")
+    cont.innerHTML= `<h3> ID: ${producto.id} </h3>
+    <p> Producto: ${producto.nombre} </p>`
+    document.body.appendChild(cont)
+} 
 
 do{
 operacion=solicitarValor(1,6,`BIENVENIDO A LA JAVARULETA
