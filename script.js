@@ -27,23 +27,7 @@ class apuesta{
 }
 
 
-let contenedor=document.getElementById("listaResultados")
-mensaje="hola"
-console.log(contenedor.innerText)
-contenedor.innerHTML= "<h1>PROBANDO</h1>"
 
-const productos= [
-    {id:1, nombre:"arroz", precio:10},
-    {id:2, nombre:"fideos", precio:20},
-    {id:3, nombre:"porotos", precio:30}
-]
-
-for (const producto of productos){
-    let cont = document.createElement("div")
-    cont.innerHTML= `<h3> ID: ${producto.id} </h3>
-    <p> Producto: ${producto.nombre} </p>`
-    document.body.appendChild(cont)
-} 
 
 do{
 operacion=solicitarValor(1,6,`BIENVENIDO A LA JAVARULETA
@@ -56,7 +40,7 @@ operacion=solicitarValor(1,6,`BIENVENIDO A LA JAVARULETA
     3-RETIRAR DINERO
     4-MOSTRAR APUESTAS
     5-VER RESULTADOS RULETA
-    6-SALIR`)
+    6-MOSTRAR RESULTADOS EN PANTALLA`)
 
     switch(operacion){
         case 1:
@@ -130,6 +114,14 @@ function jugar(){
     resultadoRuleta=Number(getRandom(1,10))
 
 apuestaNro[i] = new apuesta(apuestaDinero,apuestaNumero,resultadoRuleta)
+
+let cont = document.createElement("div")
+    cont.innerHTML= `<p> DINERO APOSTADO: ${apuestaNro[i].apuestaDinero}<br>
+ AL NUMERO ${apuestaNro[i].apuestaNumero}<br>
+ RESULTADO ${apuestaNro[i].resultadoRuleta}</p>`
+
+document.body.appendChild(cont)
+
 i+=1;
     
     if(apuestaNumero===resultadoRuleta){
