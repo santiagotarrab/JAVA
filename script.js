@@ -29,6 +29,8 @@ class apuesta{
 
 
 
+
+
 do{
 operacion=solicitarValor(1,6,`BIENVENIDO A LA JAVARULETA
     
@@ -115,12 +117,30 @@ function jugar(){
 
 apuestaNro[i] = new apuesta(apuestaDinero,apuestaNumero,resultadoRuleta)
 
-let cont = document.createElement("div")
-    cont.innerHTML= `<p> DINERO APOSTADO: ${apuestaNro[i].apuestaDinero}<br>
- AL NUMERO ${apuestaNro[i].apuestaNumero}<br>
- RESULTADO ${apuestaNro[i].resultadoRuleta}</p>`
+ let tabla=document.querySelector("#listaResultados")
 
-document.body.appendChild(cont)
+
+ let trow = document.createElement("tr")
+ trow.setAttribute("class","apuesta"+i)
+ tabla.appendChild(trow)
+
+  let tcol1 = document.createElement("th")
+  tcol1.innerHTML = "$" + apuestaNro[i].apuestaDinero
+  trow.appendChild(tcol1)
+
+  let tcol2 = document.createElement("th")
+  tcol2.innerHTML = apuestaNro[i].apuestaNumero
+  trow.appendChild(tcol2)
+
+  let tcol3 = document.createElement("th")
+  tcol3.innerHTML = apuestaNro[i].resultadoRuleta
+  trow.appendChild(tcol3)
+
+//     cont.innerHTML= `<p> DINERO APOSTADO: ${apuestaNro[i].apuestaDinero}<br>
+//  AL NUMERO ${apuestaNro[i].apuestaNumero}<br>
+//  RESULTADO ${apuestaNro[i].resultadoRuleta}</p>`
+
+// document.body.appendChild(cont)
 
 i+=1;
     
