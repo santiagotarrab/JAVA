@@ -8,6 +8,16 @@ let max=10;
 let apuestaNro=[];
 let lista="";
 
+
+let txtMenu=    `INGRESE LA OPERACION QUE QUIERA REALIZAR:<br>
+1-CARGAR DINERO<br>
+2-JUGAR<br>
+3-RETIRAR DINERO<br>
+4-MOSTRAR APUESTAS<br>
+5-VER RESULTADOS RULETA<br>
+6-MOSTRAR RESULTADOS EN PANTALLA<br>`
+
+
 class apuesta{
     constructor(apuestaDinero,apuestaNumero,resultadoRuleta)
     {
@@ -30,21 +40,12 @@ class apuesta{
 
 let valorBox=document.getElementById("textoForm")
 let mensajeTxt=document.getElementById("mensaje")
-let creditoTxt=document.getElementById("credito")
+let creditoTxt=document.querySelector("#credito")
 let btnAceptar=document.getElementById("btnAceptar")
 btnAceptar.addEventListener("click", menu)
 
 
-mensajeTxt.innerHTML=
-    `SU CREDITO ACTUAL ES : $`+ credito +`
-    
-    INGRESE LA OPERACION QUE QUIERA REALIZAR:
-    1-CARGAR DINERO
-    2-JUGAR
-    3-RETIRAR DINERO
-    4-MOSTRAR APUESTAS
-    5-VER RESULTADOS RULETA
-    6-MOSTRAR RESULTADOS EN PANTALLA`
+mensajeTxt.innerHTML= txtMenu
 
 
 function menu(e){
@@ -53,9 +54,13 @@ function menu(e){
     switch(valorBox.value){
         case "1":
             alert("ingresado1")
+            min=1
+            max=1000
             btnAceptar.removeEventListener("click",menu)
+            mensajeTxt.innerHTML="INGRESE VALOR A CARGAR"
             btnAceptar.addEventListener("click",ingresarDinero)
-            ingresarDinero()        
+
+                
         break
        
         case "2":
@@ -90,21 +95,24 @@ function cargaCredito(){
     //credito+=solicitarValor(1,1000,"INGRESE LA CANTIDAD DE DINERO A CARGAR (1-1000)"
 }
 
-function validar(e){
-    e.preventDefault()
-    alert("estoy en validar")
-    
-    if(Number(valorBox.value)>=min && Number(valorBox.value)<=max){
-       
-    }else{
-        alert("fuera de rango")
-    }
+
+function ingresarDinero(e){
+e.preventDefault()
+alert("estoy en Ingresar DInero")
+
+
+if(Number(valorBox.value)>=min && Number(valorBox.value)<=max){
+    credito+=Number(valorBox.value)
+    creditoTxt.innerHTML="$" + credito
+    btnAceptar.removeEventListener("click",ingresarDinero)
+    btnAceptar.addEventListener("click",menu)
+    mensajeTxt.innerHTML=  txtMenu
+}else{
+    alert("fuera de rango")
+    valorBox.value=""
 }
 
-function ingresarDinero(){
-valorBox.value=""
-mensajeTxt.innerHTML="INGRESE VALOR A CARGAR"
-alert("estoy en Ingresar DInero")
+
 
 
 }
