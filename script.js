@@ -7,6 +7,50 @@ let apuestaDinero
 let apuestaNumero
 let apuestaNro = [];
 let lista = "";
+let elemento= document.body
+
+
+
+/* 
+let btnToogle2=document.getElementById("btnToogle")
+btnToogle2.addEventListener("click", cambiarFondo)
+
+localStorage.setItem (1,"prueba")
+localStorage.setItem (2," de")
+localStorage.setItem (3," storage")
+const producto1=[{id:1,producto:"harina"},{id:2,producto:"arroz"}]
+const enJSON = JSON.stringify(producto1)
+
+let listaLocalStorage = ""
+
+for (i=0; i<localStorage.length;i++) {
+listaLocalStorage+=localStorage.key(i)
+
+}
+alert(listaLocalStorage)
+
+
+console.log(enJSON)
+console.log(typeof enJSON)
+console.log(typeof producto1)
+
+localStorage.setItem("producto2",enJSON)
+
+
+
+
+function cambiarFondo(e){
+  e.preventDefault()
+
+  elemento.classList.toggle("fondoAzul")
+
+  alert("cambia")
+} */
+
+
+//
+
+
 
 let txtMenu = `INGRESE LA OPERACION QUE QUIERA REALIZAR:<br>
 1-CARGAR DINERO<br>
@@ -36,10 +80,10 @@ class apuesta {
     );
   }
   ganancia() {
-    if (this.apuestaNumero === this.resultadoRuleta) {
-      return this.apuestaNumero * 10 - 1;
+    if (this.apuestaNumero == this.resultadoRuleta) {
+      return this.apuestaDinero * 9;
     } else {
-      return -1;
+      return -apuestaDinero;
     }
   }
 }
@@ -52,9 +96,12 @@ btnAceptar.addEventListener("click", menu);
 
 mensajeTxt.innerHTML = txtMenu;
 
-function menu(e) {
+function menu() {
+  
+  mensajeTxt.innerHTML=txtMenu
+  creditoTxt.innerHTML="$" + credito
     alert("MENU")
-  e.preventDefault();
+  
   switch (valorBox.value) {
     case "1":
       min = 1;
@@ -72,7 +119,6 @@ function menu(e) {
       btnAceptar.removeEventListener("click", menu);
       btnAceptar.addEventListener("click", apostarDinero);
      
-
       break;
 
     case "3":
@@ -103,13 +149,13 @@ function cargaCredito() {
 
 function ingresarDinero(e) {
     alert("INGRESAR DINERDO")
-  e.preventDefault();
+  
 
   if (Number(valorBox.value) >= min && Number(valorBox.value) <= max) {
     credito += Number(valorBox.value);
     creditoTxt.innerHTML = "CREDITO:  $" + credito;
     btnAceptar.removeEventListener("click", ingresarDinero);
-    btnAceptar.addEventListener("click", menu);
+    btnAceptar.addEventListener("click",menu);
     mensajeTxt.innerHTML = txtMenu;
     
   } else {
@@ -119,16 +165,19 @@ function ingresarDinero(e) {
 }
 
 function apostarDinero(e) {
-    e.preventDefault()
+    
     
   if ((valorBox.value>=min) &&(valorBox.value<=max)) {
-    alert("etoy en true")
+
     apuestaDinero=valorBox.value
-    alert("apuestado: "+ apuestaDinero)
+
     valorBox.value=""
     mensajeTxt.innerHTML = "INGRESE A QUE NUMERO APOSTAR (1 - 10)";
     min=1
-    max=10
+    max=credito
+
+
+    ///
     btnAceptar.removeEventListener("click", apostarDinero);
     btnAceptar.addEventListener("click", apostarNumero);
     
@@ -139,25 +188,54 @@ function apostarDinero(e) {
 }
 
 function apostarNumero(e) {
-    e.preventDefault()
+    
     alert("APOSTARNUMERO")
-    alert("min"+min + "max" + max)
+    
  
   if (Number(valorBox.value) >= min && Number(valorBox.value) <= max) {
     apuestaNumero= valorBox.value
     alert("apostado al " + apuestaNumero)
-    
+
+
+    resultadoRuleta=Number(getRandom(1,10))
+    apuestaNro[i] = new apuesta(apuestaDinero,apuestaNumero,resultadoRuleta)
+    console.log("APUESTA "+ i)
+    console.log (apuestaNro[i])
+    // alert(apuestaNro[i].mostrarResultado())
+    saldarRonda()
+    //
+    i+=1
 
     min=1
     max=6
+    alert("fin ronda, ahora a menu")
     btnAceptar.removeEventListener("click", apostarNumero);
     btnAceptar.addEventListener("click", menu);
-    
+    menu()
+
   } else {
     alert("INGRESE UN VALOR CORRECTO");
     valorBox.value = "";
   }
 }
+
+function saldarRonda(){
+  credito-=apuestaNro[i].apuestaDinero
+  if(apuestaNro[i].apuestaNumero==apuestaNro[i].resultadoRuleta){
+    credito+=apuestaNro[i].apuestaDinero*10
+  }
+}
+
+function getRandom(min,max){
+  return Math.round(Math.random() *(max-min)+min);
+}
+
+
+
+
+
+
+
 
 //do{
 
@@ -271,9 +349,7 @@ function apostarNumero(e) {
 
 // }
 
-// function getRandom(min,max){
-//     return Math.round(Math.random() *(max-min)+min);
-// }
+
 
 // function solicitarValor(min,max,text){
 //     let minV = Number(min)
