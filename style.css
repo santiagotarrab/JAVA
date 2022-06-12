@@ -1,11 +1,59 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400&family=Roboto:wght@300&display=swap');
+
+*{
+font-family: 'Roboto', sans-serif;
+}
+
 div{
-    border: solid black;
     border-radius: 10;
     padding:10px;
     width: 300px;
-    background-color: aqua;
 }
 
 .fondoAzul{
     background-color: blue;
+}
+
+#botones{
+    width: 70%;
+    display: flex;
+    left: 0;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content:space-between; 
+}
+
+#botones div{
+    border: solid black;
+    border-radius: 20%;
+    width: 30%;
+    justify-items: center;
+    text-align: center;
+    max-width: 200px;
+    height: 100px;
+}
+
+#botones div:hover{
+    border: none;
+background-color: green;
+color: white;
+}
+
+#mensaje{
+    text-align: center;
+    font-size: 30px;
+}
+#credito{
+    text-align: center;
+    font-size: 30px;
+}
+
+#apuestas{
+   position:absolute;
+    right: 0px;
+    width: 20%;
+    top: 100px;
+}
+#apuestas div:hover{
+    background-color: rgba(128, 128, 128, 0.671);
 }
