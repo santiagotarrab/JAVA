@@ -9,13 +9,14 @@ let apuestaNro = [];
 let lista = "";
 let elemento = document.body;
 let txtMenu = `BIENVENIDO A LA JAVARULETA!!`;
+let id =0
 
 //DEFINO BOTONES DE MENU
 botonesMenu = [
   { id: 1, textoHtml: "<h3>INGRESAR DINERO</h3>", accion: () => menu2("1") },
   { id: 2, textoHtml: "<h3>JUGAR</h3>", accion: () => menu2("2") },
   { id: 3, textoHtml: "<h3>RETIRAR DINERO</h3>", accion: () => menu2("3") },
-  { id: 4, textoHtml: "<h3>MOSTRAR APUESTAS</h3>", accion: () => menu2("4") },
+  
 ];
 
 
@@ -122,9 +123,10 @@ function apostarNumero(min, max) {
   if (Number(valorBox.value) >= min && Number(valorBox.value) <= max) {
     apuestaNumero = valorBox.value;
     resultadoRuleta = Number(getRandom(1, 10));
-    apuestaNro.push (new apuesta(apuestaDinero, apuestaNumero, resultadoRuleta))
+    id=apuestaNro.length+1
+    apuestaNro.push (new apuesta(id,apuestaDinero, apuestaNumero, resultadoRuleta))
 
-    
+
     if (apuestaNumero ==resultadoRuleta) {
 
       credito += apuestaDinero * 10;
@@ -151,6 +153,7 @@ function apostarNumero(min, max) {
     inputData.style.display="none"
     menuBotones.style.display="flex"
     creditoTxt.innerHTML = + credito;
+    mostrarApuestas()
   } else {
     alert("INGRESE UN VALOR CORRECTO");
     valorBox.value = "";
@@ -165,11 +168,19 @@ function mostrarApuestas() {
     listaApuestas.innerHTML=""
   for (ap of apuestaNro) {
     console.log(ap);
-    muestraApuesta=document.createElement("div")
-    muestraApuesta.innerHTML= `APOSTADO: ${ap.apuestaDinero}, AL NUMERO ${ap.apuestaNumero}`
+    const muestraApuesta=document.createElement("div")
+    muestraApuesta.setAttribute("id", `${ap.id}`)
+    muestraApuesta.innerHTML= `${ap.resultadoRuleta}`
+    muestraApuesta.addEventListener("click", mostrar2)
     listaApuestas.appendChild(muestraApuesta)
   }
 
+function mostrar2(e){
+  const objetoSel = e.currentTarget
+  const id= Number(objetoSel.id)
+  alert(`ID: ${apuestaNro[id-1].id} APOSTADO: $${apuestaNro[id-1].apuestaDinero} AL NUMERO ${apuestaNro[id-1].apuestaNumero}. RESUL:${apuestaNro[id-1].resultadoRuleta}`)
+
+}
 
 }
 

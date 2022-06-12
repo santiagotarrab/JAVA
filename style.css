@@ -25,10 +25,11 @@ div{
 
 #botones div{
     border: solid black;
-    border-radius: 20%;
+    border-radius: 20px;
     width: 30%;
     justify-items: center;
     text-align: center;
+    text-justify: center;
     max-width: 200px;
     height: 100px;
 }
@@ -53,7 +54,17 @@ color: white;
     right: 0px;
     width: 20%;
     top: 100px;
+    height: 100%;
+    border-left: 3px solid;
+    background-color: rgba(169, 169, 169, 0.692);
 }
 #apuestas div:hover{
     background-color: rgba(128, 128, 128, 0.671);
+}
+
+#titleApuestas{
+    position: absolute;
+    top: 70px;
+    width: 20%;
+    right: 0px;
 }

@@ -1,5 +1,6 @@
 class apuesta {
-    constructor(apuestaDinero, apuestaNumero, resultadoRuleta) {
+    constructor(id,apuestaDinero, apuestaNumero, resultadoRuleta) {
+      this.id=id;
       this.apuestaDinero = apuestaDinero;
       this.apuestaNumero = apuestaNumero;
       this.resultadoRuleta = resultadoRuleta;
