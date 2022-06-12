@@ -32,6 +32,7 @@ div{
     text-justify: center;
     max-width: 200px;
     height: 100px;
+    margin-top: 50px;
 }
 
 #botones div:hover{
@@ -44,7 +45,7 @@ color: white;
     text-align: center;
     font-size: 30px;
 }
-#credito{
+#credito,span{
     text-align: center;
     font-size: 30px;
 }

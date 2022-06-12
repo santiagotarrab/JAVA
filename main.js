@@ -1,11 +1,13 @@
-let credito = 0;
+
+
+let credito
 let i = 0;
 let j = 0;
 let min = 0;
 let max = 10;
 let apuestaDinero;
 let apuestaNumero;
-let apuestaNro = [];
+let apuestaNro;
 let lista = "";
 let elemento = document.body;
 let txtMenu = `BIENVENIDO A LA JAVARULETA!!`;
@@ -16,11 +18,27 @@ botonesMenu = [
   { id: 1, textoHtml: "<h3>INGRESAR DINERO</h3>", accion: () => menu2("1") },
   { id: 2, textoHtml: "<h3>JUGAR</h3>", accion: () => menu2("2") },
   { id: 3, textoHtml: "<h3>RETIRAR DINERO</h3>", accion: () => menu2("3") },
-  
 ];
 
 
+
+
 //SETEO PARAMETROS INICIALES
+    //tomo credito de LS, o lo crea si no lo encuentra
+const creditoLS=JSON.parse(localStorage.getItem('credito'))
+if(creditoLS){
+  credito=creditoLS
+} else{
+  credito=0
+}
+    //tomo apuestas de LS, o lo crea si no lo encuentra
+const apuestaNroLS=JSON.parse(localStorage.getItem('apuestas'))
+if(apuestaNroLS){
+  apuestaNro=apuestaNroLS
+} else{
+  apuestaNro=[]
+}
+
 let valorBox = document.getElementById("textoForm");
 let mensajeTxt = document.getElementById("mensaje");
 let creditoTxt = document.querySelector("#credito");
@@ -34,6 +52,7 @@ inputData.style.display="none"
 menuBotones.style.display="flex"
 mensajeTxt.innerHTML = txtMenu;
 creditoTxt.innerHTML= credito
+
 ///
 
 //SE CREAN LOS BOTONES
@@ -48,7 +67,7 @@ function crearBotones(etiquetaDestino, codigoHtml, accion) {
 }
 //
 
-
+mostrarApuestas()
 function menu2(opcion) {
   mensajeTxt.innerHTML = txtMenu;
   creditoTxt.innerHTML = credito;
@@ -95,6 +114,7 @@ function menu2(opcion) {
 function ingresarDinero(min, max) {
   if (Number(valorBox.value) >= min && Number(valorBox.value) <= max) {
     credito += Number(valorBox.value);
+    localStorage.setItem('credito',JSON.stringify(credito))
     creditoTxt.innerHTML = credito;
     inputData.style.display="none"
     menuBotones.style.display="flex"
@@ -125,7 +145,7 @@ function apostarNumero(min, max) {
     resultadoRuleta = Number(getRandom(1, 10));
     id=apuestaNro.length+1
     apuestaNro.push (new apuesta(id,apuestaDinero, apuestaNumero, resultadoRuleta))
-
+    localStorage.setItem('apuestas',JSON.stringify(apuestaNro))
 
     if (apuestaNumero ==resultadoRuleta) {
 
