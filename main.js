@@ -21,23 +21,11 @@ botonesMenu = [
 ];
 
 
-
-
 //SETEO PARAMETROS INICIALES
     //tomo credito de LS, o lo crea si no lo encuentra
-const creditoLS=JSON.parse(localStorage.getItem('credito'))
-if(creditoLS){
-  credito=creditoLS
-} else{
-  credito=0
-}
-    //tomo apuestas de LS, o lo crea si no lo encuentra
-const apuestaNroLS=JSON.parse(localStorage.getItem('apuestas'))
-if(apuestaNroLS){
-  apuestaNro=apuestaNroLS
-} else{
-  apuestaNro=[]
-}
+const credito=JSON.parse(localStorage.getItem('credito'))|| 0
+const apuestaNro=JSON.parse(localStorage.getItem('apuestas'))||[]
+
 
 let valorBox = document.getElementById("textoForm");
 let mensajeTxt = document.getElementById("mensaje");
@@ -65,7 +53,6 @@ function crearBotones(etiquetaDestino, codigoHtml, accion) {
   etiquetaDestino.appendChild(botonNuevo);
   botonNuevo.onclick = accion;
 }
-//
 
 mostrarApuestas()
 function menu2(opcion) {
@@ -194,11 +181,10 @@ function mostrarApuestas() {
     muestraApuesta.addEventListener("click", mostrar2)
     listaApuestas.appendChild(muestraApuesta)
   }
-
 function mostrar2(e){
   const objetoSel = e.currentTarget
   const id= Number(objetoSel.id)
-  alert(`ID: ${apuestaNro[id-1].id} APOSTADO: $${apuestaNro[id-1].apuestaDinero} AL NUMERO ${apuestaNro[id-1].apuestaNumero}. RESUL:${apuestaNro[id-1].resultadoRuleta}`)
+  alert(`ID: ${apuestaNro[id-1].id} APOSTADO: $${apuestaNro[id-1].apuestaDinero} AL NUMERO ${apuestaNro[id-1].apuestaNumero}. RESULTADO:${apuestaNro[id-1].resultadoRuleta}`)
 
 }
 
