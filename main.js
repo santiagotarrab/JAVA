@@ -26,6 +26,15 @@ let menuBotones = document.getElementById("botones");
 let textoForm = document.getElementById("textoForm");
 let inputData = document.getElementById("inputData");
 let listaApuestas = document.getElementById("apuestas");
+let iconoBorrar = document.getElementById("iconoBorrar");
+
+iconoBorrar.onclick = ()=>borrar()
+
+function borrar(){
+apuestaNro=[]
+localStorage.setItem("apuestas",JSON.stringify(apuestaNro))
+mostrarApuestas()
+}
 
 inputData.style.display = "none";
 menuBotones.style.display = "flex";
@@ -84,7 +93,13 @@ function menu2(opcion) {
       break;
 
     case "4":
-      alert("EN CONSOLA SE MUESTRAN LAS APUESTAS");
+      Swal.fire({
+        showCancelButton: false,
+        showConfirmButton: false,
+        timer:1000,
+        title: "EN CONSOLA SE MUESTRAN LAS APUESTAS",
+      })
+     
       mostrarApuestas();
       break;
   }
@@ -99,7 +114,13 @@ function ingresarDinero(min, max) {
     menuBotones.style.display = "flex";
     mensajeTxt.innerHTML = txtMenu;
   } else {
-    alert("INGRESE UN VALOR CORRECTO");
+    Swal.fire({
+      showCancelButton: false,
+      showConfirmButton: false,
+      timer:1000,
+      title: "INGRESE UN VALOR CORRECTO",      
+    })
+
     valorBox.value = "";
   }
 }
@@ -113,7 +134,16 @@ function apostarDinero(min, max) {
       apostarNumero(1, 10);
     };
   } else {
-    alert("INGRESE UN VALOR CORRECTO" + "min:" + min + ", max:" + max);
+
+    Swal.fire({
+      showCancelButton: false,
+      showConfirmButton: false,
+      timer:1000,
+      
+      title: "INGRESE UN VALOR CORRECTO ENTRE " + min + " Y " + max,
+      
+    })
+    
     valorBox.value = "";
   }
 }
@@ -131,22 +161,38 @@ function apostarNumero(min, max) {
     if (apuestaNumero == resultadoRuleta) {
       credito += apuestaDinero * 10;
       creditoTxt.innerHTML = credito;
-      alert(
-        `RESULTADO DE LA RONDA:
-      APUESTA: $ ${apuestaDinero} , 
-      AL NUMERO: ${apuestaNumero} 
-      RESULTADO DE LA RULETA: ${resultadoRuleta}
+      Swal.fire({
+        showCancelButton: false,
+        
+        title: `RESULTADO DE LA RONDA:
+        APUESTA: $ ${apuestaDinero} , 
+        AL NUMERO: ${apuestaNumero} 
+        RESULTADO DE LA RULETA: ${resultadoRuleta}
+        
+        FELICITACIONES!! HA GANADO`
+        
+      })
+
+
       
-      FELICITACIONES!! HA GANADO`
-      );
+    
+
+
     } else {
       credito -= apuestaDinero;
-      alert(`RESULTADO DE LA RONDA:
-      APUESTA: $ ${apuestaDinero} , 
-      AL NUMERO: ${apuestaNumero} 
-      RESULTADO DE LA RULETA: ${resultadoRuleta}
+      Swal.fire({
+        showCancelButton: false,
+        
+        title: `RESULTADO DE LA RONDA:
+        APUESTA: $ ${apuestaDinero} , 
+        AL NUMERO: ${apuestaNumero} 
+        RESULTADO DE LA RULETA: ${resultadoRuleta}
+        
+        EXITOS EN EL PROXIMO INTENTO`
+        
+      })
+
       
-      EXITOS EN EL PROXIMO INTENTO`);
     }
 
     mensajeTxt.innerHTML = txtMenu;
@@ -155,7 +201,15 @@ function apostarNumero(min, max) {
     creditoTxt.innerHTML = +credito;
     mostrarApuestas();
   } else {
-    alert("INGRESE UN VALOR CORRECTO");
+    Swal.fire({
+      showCancelButton: false,
+      showConfirmButton: false,
+      timer:1000,
+      
+      title: "INGRESE UN VALOR CORRECTO"
+      
+    })
+    
     valorBox.value = "";
   }
 }
@@ -177,13 +231,21 @@ function mostrarApuestas() {
   function mostrar2(e) {
     const objetoSel = e.currentTarget;
     const id = Number(objetoSel.id);
-    alert(
-      `ID: ${apuestaNro[id - 1].id} APOSTADO: $${
+    Swal.fire({
+      showCancelButton: false,
+      showConfirmButton: false,
+      timer:1000,
+      title: `ID: ${apuestaNro[id - 1].id} 
+      APOSTADO: $${
         apuestaNro[id - 1].apuestaDinero
-      } AL NUMERO ${apuestaNro[id - 1].apuestaNumero}. RESULTADO:${
+      } 
+      AL NUMERO: ${apuestaNro[id - 1].apuestaNumero} 
+      RESULTADO:${
         apuestaNro[id - 1].resultadoRuleta
       }`
-    );
+      
+    })
+    ;
   }
 
 
@@ -192,14 +254,30 @@ function retirarDinero(min, max) {
   if (valor >= min && valor <= max) {
     credito -= valor;
     creditoTxt.innerHTML = credito;
-    alert("Retirado: $" + valor);
+    
+ 
+    
+
+    Swal.fire({
+      showCancelButton: false,
+      showConfirmButton: false,
+      timer:1000,
+      title: "Retirado: $" + valor,
+      
+    })
 
     inputData.style.display = "none";
     menuBotones.style.display = "flex";
     mensajeTxt.innerHTML = txtMenu;
     //menu()
   } else {
-    alert("INGRESE UN VALOR CORRECTO");
+    
+    Swal.fire({      
+      showCancelButton: false,
+      showConfirmButton: false,
+      timer:1000,
+      title: "INGRESE UN VALOR CORRECTO",
+    })
     valorBox.value = "";
   }
 }

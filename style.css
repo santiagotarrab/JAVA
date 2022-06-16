@@ -72,3 +72,19 @@ color: white;
     width: 20%;
     right: 0px;
 }
+
+
+.swal2-container{
+     width: 100% !important; 
+     font-size: small;
+}
+
+.swal2-popup {
+    font-size: 0.8rem !important;
+    font-family: Georgia, serif;
+  }
+
+  #iconoBorrar{
+      position: absolute;
+      right: 0px;
+  }
