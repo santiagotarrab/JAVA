@@ -5,7 +5,7 @@ let apuestaDinero;
 let apuestaNumero;
 let txtMenu = `BIENVENIDO A LA JAVARULETA!!`;
 let id = 0;
-
+let resultadoRuleta;
 //DEFINO BOTONES DE MENU
 botonesMenu = [
   { id: 1, textoHtml: "<h3>INGRESAR DINERO</h3>", accion: () => menu2("1") },
@@ -28,12 +28,12 @@ let inputData = document.getElementById("inputData");
 let listaApuestas = document.getElementById("apuestas");
 let iconoBorrar = document.getElementById("iconoBorrar");
 
-iconoBorrar.onclick = ()=>borrar()
+iconoBorrar.onclick = () => borrar();
 
-function borrar(){
-apuestaNro=[]
-localStorage.setItem("apuestas",JSON.stringify(apuestaNro))
-mostrarApuestas()
+function borrar() {
+  apuestaNro = [];
+  localStorage.setItem("apuestas", JSON.stringify(apuestaNro));
+  mostrarApuestas();
 }
 
 inputData.style.display = "none";
@@ -96,10 +96,10 @@ function menu2(opcion) {
       Swal.fire({
         showCancelButton: false,
         showConfirmButton: false,
-        timer:1000,
+        timer: 1000,
         title: "EN CONSOLA SE MUESTRAN LAS APUESTAS",
-      })
-     
+      });
+
       mostrarApuestas();
       break;
   }
@@ -117,9 +117,9 @@ function ingresarDinero(min, max) {
     Swal.fire({
       showCancelButton: false,
       showConfirmButton: false,
-      timer:1000,
-      title: "INGRESE UN VALOR CORRECTO",      
-    })
+      timer: 1000,
+      title: "INGRESE UN VALOR CORRECTO",
+    });
 
     valorBox.value = "";
   }
@@ -134,16 +134,14 @@ function apostarDinero(min, max) {
       apostarNumero(1, 10);
     };
   } else {
-
     Swal.fire({
       showCancelButton: false,
       showConfirmButton: false,
-      timer:1000,
-      
+      timer: 1000,
+
       title: "INGRESE UN VALOR CORRECTO ENTRE " + min + " Y " + max,
-      
-    })
-    
+    });
+
     valorBox.value = "";
   }
 }
@@ -151,69 +149,22 @@ function apostarDinero(min, max) {
 function apostarNumero(min, max) {
   if (Number(valorBox.value) >= min && Number(valorBox.value) <= max) {
     apuestaNumero = valorBox.value;
-    resultadoRuleta = Number(getRandom(1, 10));
-    id = apuestaNro.length + 1;
-    apuestaNro.push(
-      new apuesta(id, apuestaDinero, apuestaNumero, resultadoRuleta)
-    );
-    localStorage.setItem("apuestas", JSON.stringify(apuestaNro));
-
-    if (apuestaNumero == resultadoRuleta) {
-      credito += apuestaDinero * 10;
-      creditoTxt.innerHTML = credito;
-      Swal.fire({
-        showCancelButton: false,
-        
-        title: `RESULTADO DE LA RONDA:
-        APUESTA: $ ${apuestaDinero} , 
-        AL NUMERO: ${apuestaNumero} 
-        RESULTADO DE LA RULETA: ${resultadoRuleta}
-        
-        FELICITACIONES!! HA GANADO`
-        
-      })
-
-
-      
-    
-
-
-    } else {
-      credito -= apuestaDinero;
-      Swal.fire({
-        showCancelButton: false,
-        
-        title: `RESULTADO DE LA RONDA:
-        APUESTA: $ ${apuestaDinero} , 
-        AL NUMERO: ${apuestaNumero} 
-        RESULTADO DE LA RULETA: ${resultadoRuleta}
-        
-        EXITOS EN EL PROXIMO INTENTO`
-        
-      })
-
-      
-    }
-
-    mensajeTxt.innerHTML = txtMenu;
-    inputData.style.display = "none";
-    menuBotones.style.display = "flex";
-    creditoTxt.innerHTML = +credito;
-    mostrarApuestas();
+    girarRuleta().then((res) => {
+      resultadoRuleta = res;
+      terminarRonda();
+    });
   } else {
     Swal.fire({
       showCancelButton: false,
       showConfirmButton: false,
-      timer:1000,
-      
-      title: "INGRESE UN VALOR CORRECTO"
-      
-    })
-    
+      timer: 1000,
+
+      title: "INGRESE UN VALOR CORRECTO",
+    });
+
     valorBox.value = "";
   }
 }
-
 
 function getRandom(min, max) {
   return Math.round(Math.random() * (max - min) + min);
@@ -228,57 +179,102 @@ function mostrarApuestas() {
     muestraApuesta.innerHTML = `${ap.resultadoRuleta}`;
     muestraApuesta.addEventListener("click", mostrar2);
     listaApuestas.appendChild(muestraApuesta);
-  }}
-  function mostrar2(e) {
-    const objetoSel = e.currentTarget;
-    const id = Number(objetoSel.id);
-    Swal.fire({
-      showCancelButton: false,
-      showConfirmButton: false,
-      timer:1000,
-      title: `ID: ${apuestaNro[id - 1].id} 
-      APOSTADO: $${
-        apuestaNro[id - 1].apuestaDinero
-      } 
-      AL NUMERO: ${apuestaNro[id - 1].apuestaNumero} 
-      RESULTADO:${
-        apuestaNro[id - 1].resultadoRuleta
-      }`
-      
-    })
-    ;
   }
-
+}
+function mostrar2(e) {
+  const objetoSel = e.currentTarget;
+  const id = Number(objetoSel.id);
+  Swal.fire({
+    showCancelButton: false,
+    showConfirmButton: false,
+    timer: 1000,
+    title: `ID: ${apuestaNro[id - 1].id} 
+      APOSTADO: $${apuestaNro[id - 1].apuestaDinero} 
+      AL NUMERO: ${apuestaNro[id - 1].apuestaNumero} 
+      RESULTADO:${apuestaNro[id - 1].resultadoRuleta}`,
+  });
+}
 
 function retirarDinero(min, max) {
   let valor = Number(valorBox.value);
   if (valor >= min && valor <= max) {
     credito -= valor;
     creditoTxt.innerHTML = credito;
-    
- 
-    
 
     Swal.fire({
       showCancelButton: false,
       showConfirmButton: false,
-      timer:1000,
+      timer: 1000,
       title: "Retirado: $" + valor,
-      
-    })
+    });
 
     inputData.style.display = "none";
     menuBotones.style.display = "flex";
     mensajeTxt.innerHTML = txtMenu;
     //menu()
   } else {
-    
-    Swal.fire({      
+    Swal.fire({
       showCancelButton: false,
       showConfirmButton: false,
-      timer:1000,
+      timer: 1000,
       title: "INGRESE UN VALOR CORRECTO",
-    })
+    });
     valorBox.value = "";
   }
+}
+
+const girarRuleta = () => {
+  Swal.fire({
+    showCancelButton: false,
+    showConfirmButton: false,
+    title: "GIRANDO RULETA",
+  });
+
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(Number(getRandom(1, 10)));
+    }, 3000);
+  });
+};
+
+function terminarRonda() {
+  id = apuestaNro.length + 1;
+  apuestaNro.push(
+    new apuesta(id, apuestaDinero, apuestaNumero, resultadoRuleta)
+  );
+  localStorage.setItem("apuestas", JSON.stringify(apuestaNro));
+
+  if (apuestaNumero == resultadoRuleta) {
+    credito += apuestaDinero * 10;
+    creditoTxt.innerHTML = credito;
+
+    Swal.fire({
+      showCancelButton: false,
+
+      title: `RESULTADO DE LA RONDA:
+      APUESTA: $ ${apuestaDinero} ,
+      AL NUMERO: ${apuestaNumero}
+      RESULTADO DE LA RULETA: ${resultadoRuleta}
+
+      FELICITACIONES!! HA GANADO`,
+    });
+  } else {
+    credito -= apuestaDinero;
+    Swal.fire({
+      showCancelButton: false,
+
+      title: `RESULTADO DE LA RONDA:
+      APUESTA: $ ${apuestaDinero} ,
+      AL NUMERO: ${apuestaNumero}
+      RESULTADO DE LA RULETA: ${resultadoRuleta}
+
+      EXITOS EN EL PROXIMO INTENTO`,
+    });
+  }
+
+  mensajeTxt.innerHTML = txtMenu;
+  inputData.style.display = "none";
+  menuBotones.style.display = "flex";
+  creditoTxt.innerHTML = +credito;
+  mostrarApuestas();
 }
