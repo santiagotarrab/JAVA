@@ -96,7 +96,7 @@ color: white;
 
 #pokemones  div{
     width: 100px;
-    border: solid black;
+    border: solid  rgb(7, 156, 94);
     border-radius: 10px;
     margin: 10px;
 }
