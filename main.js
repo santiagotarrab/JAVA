@@ -6,6 +6,8 @@ let apuestaNumero;
 let txtMenu = `BIENVENIDO A LA JAVARULETA!!`;
 let id = 0;
 let resultadoRuleta;
+let pokemones = [];
+
 //DEFINO BOTONES DE MENU
 botonesMenu = [
   { id: 1, textoHtml: "<h3>INGRESAR DINERO</h3>", accion: () => menu2("1") },
@@ -53,6 +55,48 @@ function crearBotones(etiquetaDestino, codigoHtml, accion) {
   etiquetaDestino.appendChild(botonNuevo);
   botonNuevo.onclick = accion;
 }
+
+cargarApi("https://pokeapi.co/api/v2/pokemon-form/1/");
+cargarApi("https://pokeapi.co/api/v2/pokemon-form/4/");
+cargarApi("https://pokeapi.co/api/v2/pokemon-form/7/").then((msg)=>{console.log(pokemones);
+listadoPokemones()});
+
+console.log(pokemones);
+
+function listadoPokemones() {
+  for (pok of pokemones) {
+    const pokemonesContainer = document.getElementById("pokemones");
+    const divPokemon = document.createElement("div");
+    divPokemon.innerHTML = `<h4>${pok.name} </h4>
+    <img src='${pok.sprites.front_default}' alt="Paris">`;
+    pokemonesContainer.appendChild(divPokemon);
+  }
+}
+
+function cargarApi(link) {
+  return new Promise((resolve, reject) => {
+    fetch(
+      link
+      /* ,
+    {
+      mode: "no-cors",
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    } */
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        cargarDatosAPI(data);
+        resolve("HOLA")
+      });
+  });
+}
+
+function cargarDatosAPI(data) {
+  pokemones.push(data);
+}
+
 //
 
 mostrarApuestas();
