@@ -41,6 +41,7 @@ iconoBorrar.onclick = () => {
 
 
 main()
+
 function main(){
   inputData.style.display = "none";
   menuBotones.style.display = "flex";
@@ -55,6 +56,7 @@ function crearBotonesMenu(){
 for (el of botonesMenu) {
   crearBotones(menuBotones, el.textoHtml, el.accion);
 }
+
 function crearBotones(etiquetaDestino, codigoHtml, accion) {
   let botonNuevo = document.createElement("div");
   botonNuevo.innerHTML = codigoHtml;
@@ -66,9 +68,7 @@ function crearBotones(etiquetaDestino, codigoHtml, accion) {
 function initApiPokemon() {
   cargarApi("https://pokeapi.co/api/v2/pokemon-form/1/");
   cargarApi("https://pokeapi.co/api/v2/pokemon-form/4/");
-  cargarApi("https://pokeapi.co/api/v2/pokemon-form/7/").then((msg) => {
-    listadoPokemones();
-  });
+  cargarApi("https://pokeapi.co/api/v2/pokemon-form/7/");
 }
 
 function cargarApi(link) {
@@ -86,12 +86,13 @@ function cargarApi(link) {
       .then((response) => response.json())
       .then((data) => {
         pokemones.push(data);
-        resolve("HOLA");
+        resolve(true);
       });
   });
 }
 
 function cargarRandomPokemones() {
+  //CARGA UN NUEVO PREMIO PARA CADA RONDA BONUS
   pokemones2 = [];
   for (pok of pokemones) {
     let pok2 = { ...pok, bonus: Number(getRandom(0, 2)) };
@@ -100,6 +101,7 @@ function cargarRandomPokemones() {
 }
 
 function listadoPokemones() {
+  //CREA LA ESTRUCTURA DE LA PANTALLA DE BONUS (SIN VISIBILIDAD)
   pokemonesContainer.innerHTML = `<h1>BONUS TRACK!!</h1>
   <h3>ELIJA SU POKEMON PREFERIDO Y OBTENGA UN REGALO ESPECIAL</h3>`;
   for (pok of pokemones2) {
@@ -112,7 +114,14 @@ function listadoPokemones() {
   }
 }
 
+function mostrarBonus() {
+  //MUESTRA LA PANTALLA BONUS
+  pokemonesContainer.setAttribute("style", "display:flex");
+  fondoOpaco.setAttribute("style", "display:block");
+}
+
 function showBonus(e) {
+  //IDENTIFICA EL POKEMON SELECCIONADO Y CARGA EL CREDITO GANADO
   let objetoSel = e.currentTarget;
   let id = objetoSel.id;
   console.log(id);
@@ -136,12 +145,8 @@ function showBonus(e) {
   }, 1000);
 }
 
-function mostrarBonus() {
-  pokemonesContainer.setAttribute("style", "display:flex");
-  fondoOpaco.setAttribute("style", "display:block");
-}
 
-//
+
 
 mostrarApuestas();
 function menu2(opcion) {
