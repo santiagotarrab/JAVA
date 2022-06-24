@@ -27,29 +27,31 @@ let mensajeTxt = document.getElementById("mensaje");
 let creditoTxt = document.querySelector("#credito");
 let btnAceptar = document.getElementById("btnAceptar");
 let menuBotones = document.getElementById("botones");
-let textoForm = document.getElementById("textoForm");
 let inputData = document.getElementById("inputData");
 let listaApuestas = document.getElementById("apuestas");
 let iconoBorrar = document.getElementById("iconoBorrar");
 let pokemonesContainer = document.getElementById("pokemones");
-iconoBorrar.onclick = () => {
-  borrar();
-};
+let fondoOpaco = document.getElementById("fondoOpaco");
 
-function borrar() {
+iconoBorrar.onclick = () => {
   apuestaNro = [];
   localStorage.setItem("apuestas", JSON.stringify(apuestaNro));
   mostrarApuestas();
+};
+
+
+main()
+function main(){
+  inputData.style.display = "none";
+  menuBotones.style.display = "flex";
+  mensajeTxt.innerHTML = txtMenu;
+  creditoTxt.innerHTML = credito;
+  crearBotonesMenu()
+  initApiPokemon();
 }
 
-inputData.style.display = "none";
-menuBotones.style.display = "flex";
-mensajeTxt.innerHTML = txtMenu;
-creditoTxt.innerHTML = credito;
-
-///
-
 //SE CREAN LOS BOTONES
+function crearBotonesMenu(){
 for (el of botonesMenu) {
   crearBotones(menuBotones, el.textoHtml, el.accion);
 }
@@ -58,20 +60,13 @@ function crearBotones(etiquetaDestino, codigoHtml, accion) {
   botonNuevo.innerHTML = codigoHtml;
   etiquetaDestino.appendChild(botonNuevo);
   botonNuevo.onclick = accion;
-}
+}}
 
-initApiPokemon();
 
 function initApiPokemon() {
   cargarApi("https://pokeapi.co/api/v2/pokemon-form/1/");
   cargarApi("https://pokeapi.co/api/v2/pokemon-form/4/");
   cargarApi("https://pokeapi.co/api/v2/pokemon-form/7/").then((msg) => {
-    
-    console.log(`pokemones : `)
-    console.log(pokemones)
-    cargarRandomPokemones();
-    console.log(`pokemones2 : `)
-    console.log(pokemones2)
     listadoPokemones();
   });
 }
@@ -91,7 +86,6 @@ function cargarApi(link) {
       .then((response) => response.json())
       .then((data) => {
         pokemones.push(data);
-
         resolve("HOLA");
       });
   });
@@ -106,7 +100,8 @@ function cargarRandomPokemones() {
 }
 
 function listadoPokemones() {
-  pokemonesContainer.innerHTML=""
+  pokemonesContainer.innerHTML = `<h1>BONUS TRACK!!</h1>
+  <h3>ELIJA SU POKEMON PREFERIDO Y OBTENGA UN REGALO ESPECIAL</h3>`;
   for (pok of pokemones2) {
     const divPokemon = document.createElement("div");
     divPokemon.innerHTML = `<h4>${pok.name} </h4>
@@ -124,12 +119,13 @@ function showBonus(e) {
 
   const busqueda = pokemones2.find((el) => el.id == id);
   console.log(busqueda);
-  objetoSel.innerHTML = `<h1>+  ${busqueda.bonus} </h1>`;
+  objetoSel.innerHTML = `<h4>+  ${busqueda.bonus} </h4>`;
   objetoSel.setAttribute = ("style", "background:green;");
   credito += busqueda.bonus;
   creditoTxt.innerHTML = credito;
   setTimeout(() => {
     pokemonesContainer.setAttribute("style", "display:none");
+    fondoOpaco.setAttribute("style","display:none")
     contBonus = 0;
     Swal.fire({
       showCancelButton: false,
@@ -138,11 +134,11 @@ function showBonus(e) {
       title: `SU POKEBONUS ES POR ${busqueda.bonus} CREDITOS!`,
     });
   }, 1000);
-  
 }
 
 function mostrarBonus() {
   pokemonesContainer.setAttribute("style", "display:flex");
+  fondoOpaco.setAttribute("style", "display:block");
 }
 
 //
@@ -375,9 +371,7 @@ function terminarRonda() {
   if (contBonus == 3) {
     contBonus = 0;
     cargarRandomPokemones();
-    listadoPokemones()
+    listadoPokemones();
     mostrarBonus();
-    
-
   }
 }

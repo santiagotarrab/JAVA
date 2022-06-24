@@ -94,18 +94,33 @@ color: white;
   }
 
 
-#pokemones  div{
-    width: 100px;
+#pokemones > div{
+    width: 33%;
     border: solid  rgb(7, 156, 94);
     border-radius: 10px;
     margin: 10px;
+    padding:10px;
+    margin-top: 110px;
+    text-align: center;
+    border-radius: 20px;
 }
+
+#pokemones h1, #pokemones h3{
+position: absolute;
+left: 200px;
+}
+
+
+    #pokemones h3{
+    position: absolute;
+    left: 50px;
+    top: 60px;
+    }
 
 #pokemones  div:hover{
    background-color: rgb(7, 156, 94);
 
-  
-    
+
 }
 #pokemones{
     position:absolute;
@@ -115,5 +130,19 @@ color: white;
     left:25%;
     display:none;
     background-color: beige;
+    z-index:3;
+    border-radius: 20px;
+}
+
+#fondoOpaco{
     
+    display:none;
+    position: absolute;
+    top:0px;
+    bottom:0px;
+    left:0px;
+    right:0px;
+    background-color: rgba(0, 0, 0, 0.678);
+    z-index:2;
+
 }
