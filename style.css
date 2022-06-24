@@ -108,7 +108,12 @@ color: white;
     
 }
 #pokemones{
-   
-    display:flex;
+    position:absolute;
+    width: 50%;
+    height: 50%;
+    top:25%;
+    left:25%;
+    display:none;
+    background-color: beige;
     
 }

@@ -7,6 +7,8 @@ let txtMenu = `BIENVENIDO A LA JAVARULETA!!`;
 let id = 0;
 let resultadoRuleta;
 let pokemones = [];
+let pokemones2 = [];
+let contBonus = 0;
 
 //DEFINO BOTONES DE MENU
 botonesMenu = [
@@ -29,8 +31,10 @@ let textoForm = document.getElementById("textoForm");
 let inputData = document.getElementById("inputData");
 let listaApuestas = document.getElementById("apuestas");
 let iconoBorrar = document.getElementById("iconoBorrar");
-
-iconoBorrar.onclick = () => borrar();
+let pokemonesContainer = document.getElementById("pokemones");
+iconoBorrar.onclick = () => {
+  borrar();
+};
 
 function borrar() {
   apuestaNro = [];
@@ -56,21 +60,20 @@ function crearBotones(etiquetaDestino, codigoHtml, accion) {
   botonNuevo.onclick = accion;
 }
 
-cargarApi("https://pokeapi.co/api/v2/pokemon-form/1/");
-cargarApi("https://pokeapi.co/api/v2/pokemon-form/4/");
-cargarApi("https://pokeapi.co/api/v2/pokemon-form/7/").then((msg)=>{console.log(pokemones);
-listadoPokemones()});
+initApiPokemon();
 
-console.log(pokemones);
-
-function listadoPokemones() {
-  for (pok of pokemones) {
-    const pokemonesContainer = document.getElementById("pokemones");
-    const divPokemon = document.createElement("div");
-    divPokemon.innerHTML = `<h4>${pok.name} </h4>
-    <img src='${pok.sprites.front_default}' alt="Paris">`;
-    pokemonesContainer.appendChild(divPokemon);
-  }
+function initApiPokemon() {
+  cargarApi("https://pokeapi.co/api/v2/pokemon-form/1/");
+  cargarApi("https://pokeapi.co/api/v2/pokemon-form/4/");
+  cargarApi("https://pokeapi.co/api/v2/pokemon-form/7/").then((msg) => {
+    
+    console.log(`pokemones : `)
+    console.log(pokemones)
+    cargarRandomPokemones();
+    console.log(`pokemones2 : `)
+    console.log(pokemones2)
+    listadoPokemones();
+  });
 }
 
 function cargarApi(link) {
@@ -87,14 +90,59 @@ function cargarApi(link) {
     )
       .then((response) => response.json())
       .then((data) => {
-        cargarDatosAPI(data);
-        resolve("HOLA")
+        pokemones.push(data);
+
+        resolve("HOLA");
       });
   });
 }
 
-function cargarDatosAPI(data) {
-  pokemones.push(data);
+function cargarRandomPokemones() {
+  pokemones2 = [];
+  for (pok of pokemones) {
+    let pok2 = { ...pok, bonus: Number(getRandom(0, 2)) };
+    pokemones2.push(pok2);
+  }
+}
+
+function listadoPokemones() {
+  pokemonesContainer.innerHTML=""
+  for (pok of pokemones2) {
+    const divPokemon = document.createElement("div");
+    divPokemon.innerHTML = `<h4>${pok.name} </h4>
+    <img src='${pok.sprites.front_default}' alt="Paris">`;
+    divPokemon.setAttribute("id", pok.id);
+    divPokemon.addEventListener("click", showBonus);
+    pokemonesContainer.appendChild(divPokemon);
+  }
+}
+
+function showBonus(e) {
+  let objetoSel = e.currentTarget;
+  let id = objetoSel.id;
+  console.log(id);
+
+  const busqueda = pokemones2.find((el) => el.id == id);
+  console.log(busqueda);
+  objetoSel.innerHTML = `<h1>+  ${busqueda.bonus} </h1>`;
+  objetoSel.setAttribute = ("style", "background:green;");
+  credito += busqueda.bonus;
+  creditoTxt.value = credito;
+  setTimeout(() => {
+    pokemonesContainer.setAttribute("style", "display:none");
+    contBonus = 0;
+    Swal.fire({
+      showCancelButton: false,
+      showConfirmButton: false,
+      timer: 1000,
+      title: `SU POKEBONUS ES POR ${busqueda.bonus} CREDITOS!`,
+    });
+  }, 1000);
+  
+}
+
+function mostrarBonus() {
+  pokemonesContainer.setAttribute("style", "display:flex");
 }
 
 //
@@ -283,9 +331,11 @@ const girarRuleta = () => {
 
 function terminarRonda() {
   id = apuestaNro.length + 1;
+  contBonus++;
   apuestaNro.push(
     new apuesta(id, apuestaDinero, apuestaNumero, resultadoRuleta)
   );
+
   localStorage.setItem("apuestas", JSON.stringify(apuestaNro));
 
   if (apuestaNumero == resultadoRuleta) {
@@ -321,4 +371,13 @@ function terminarRonda() {
   menuBotones.style.display = "flex";
   creditoTxt.innerHTML = +credito;
   mostrarApuestas();
+
+  if (contBonus == 3) {
+    contBonus = 0;
+    cargarRandomPokemones();
+    listadoPokemones()
+    mostrarBonus();
+    
+
+  }
 }
