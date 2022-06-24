@@ -127,7 +127,7 @@ function showBonus(e) {
   objetoSel.innerHTML = `<h1>+  ${busqueda.bonus} </h1>`;
   objetoSel.setAttribute = ("style", "background:green;");
   credito += busqueda.bonus;
-  creditoTxt.value = credito;
+  creditoTxt.innerHTML = credito;
   setTimeout(() => {
     pokemonesContainer.setAttribute("style", "display:none");
     contBonus = 0;
